@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
-	"src/github.com/labstack/gommon/log"
 	"testing"
 )
 
