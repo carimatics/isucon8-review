@@ -913,7 +913,7 @@ func main() {
 		return renderReportCSV(c, reports)
 	}, adminLoginRequired)
 
-	e.Start("172.28.128.3:8080")
+	e.Start(":8080")
 }
 
 type Report struct {
