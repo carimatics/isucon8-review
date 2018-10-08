@@ -254,7 +254,10 @@ func getEvent(eventID, loginUserID int64) (*Event, error) {
 		}
 	}
 
-	for _, sheet := range sheets {
+	var currentSheets [len(sheets)]Sheet
+	copy(currentSheets[:], sheets)
+
+	for _, sheet := range currentSheets {
 		event.Sheets[sheet.Rank].Price = event.Price + sheet.Price
 		event.Total++
 		event.Sheets[sheet.Rank].Total++
