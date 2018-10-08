@@ -30,7 +30,11 @@ func TestGetSheets(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed test %#v", err)
 	}
-	if len(*result) != 1 {
+	if len(*result) != 1000 {
 		t.Fatalf("failed: result length is %d", len(*result))
+	}
+
+	for _, sheet := range *result {
+		fmt.Println(sheet)
 	}
 }
