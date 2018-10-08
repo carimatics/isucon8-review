@@ -254,7 +254,7 @@ func getEvent(eventID, loginUserID int64) (*Event, error) {
 		}
 	}
 
-	var currentSheets [len(sheets)]Sheet
+	currentSheets := make([]Sheet, len(sheets))
 	copy(currentSheets[:], sheets)
 
 	for _, sheet := range currentSheets {
