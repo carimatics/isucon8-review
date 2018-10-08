@@ -10,3 +10,7 @@ deps:
 .PHONY: build
 build:
 	GOPATH=`pwd`:`pwd`/vendor go build -v torb
+
+.PHONY: test
+test:
+	GOPATH=`pwd`:`pwd`/vendor go test ./...

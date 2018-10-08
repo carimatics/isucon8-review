@@ -24,7 +24,7 @@ import (
 )
 
 var (
-	sheets []Sheet
+	sheets *[]Sheet
 )
 
 type User struct {
@@ -225,6 +225,29 @@ func getEvents(all bool) ([]*Event, error) {
 	return events, nil
 }
 
+func getSheets() (*[]Sheet, error) {
+	if sheets == nil {
+		rows, err := db.Query("SELECT * FROM sheets ORDER BY `rank`, num")
+		if err != nil {
+			return nil, err
+		}
+		defer rows.Close()
+
+		sheets = &[]Sheet{}
+		for rows.Next() {
+			var sheet Sheet
+			if err := rows.Scan(&sheet.ID, &sheet.Rank, &sheet.Num, &sheet.Price); err != nil {
+				return nil, err
+			}
+			*sheets = append(*sheets, sheet)
+		}
+	}
+	currentSheets := make([]Sheet, len(*sheets))
+	copy(currentSheets[:], *sheets)
+
+	return &currentSheets, nil
+}
+
 func getEvent(eventID, loginUserID int64) (*Event, error) {
 	var event Event
 	if err := db.QueryRow("SELECT * FROM events WHERE id = ?", eventID).Scan(&event.ID, &event.Title, &event.PublicFg, &event.ClosedFg, &event.Price); err != nil {
@@ -237,27 +260,9 @@ func getEvent(eventID, loginUserID int64) (*Event, error) {
 		"C": &Sheets{},
 	}
 
-	if sheets == nil {
-		rows, err := db.Query("SELECT * FROM sheets ORDER BY `rank`, num")
-		if err != nil {
-			return nil, err
-		}
-		defer rows.Close()
+	currentSheets, _ := getSheets()
 
-		sheets = make([]Sheet, 0)
-		for rows.Next() {
-			var sheet Sheet
-			if err := rows.Scan(&sheet.ID, &sheet.Rank, &sheet.Num, &sheet.Price); err != nil {
-				return nil, err
-			}
-			sheets = append(sheets, sheet)
-		}
-	}
-
-	currentSheets := make([]Sheet, len(sheets))
-	copy(currentSheets[:], sheets)
-
-	for _, sheet := range currentSheets {
+	for _, sheet := range *currentSheets {
 		event.Sheets[sheet.Rank].Price = event.Price + sheet.Price
 		event.Total++
 		event.Sheets[sheet.Rank].Total++
