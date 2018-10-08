@@ -33,7 +33,8 @@ func TestGetSheets(t *testing.T) {
 	if len(*result) != 1000 {
 		t.Fatalf("failed: result length is expected is 1000, but got %d", len(*result))
 	}
+
 	for _, sheet := range *result {
-		t.Logf("%#v\n", sheet)
+		t.Logf("%d %s %d %d\n", sheet.ID, sheet.Rank, sheet.Num, sheet.Price)
 	}
 }
