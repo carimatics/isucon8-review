@@ -33,6 +33,8 @@ func TestGetSheets(t *testing.T) {
 	if len(*result) != 1000 {
 		t.Fatalf("failed: result length is expected is 1000, but got %d", len(*result))
 	}
+	fmt.Println(result)
+	fmt.Println(*result)
 
 	for _, sheet := range *result {
 		fmt.Printf("%#v", sheet)
