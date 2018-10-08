@@ -4,13 +4,16 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	"src/github.com/joho/godotenv"
 	"src/github.com/labstack/gommon/log"
 	"testing"
 )
 
 func TestGetSheets(t *testing.T) {
-	godotenv.Load("../.env.sh")
+	os.Setenv("DB_DATABASE", "torb")
+	os.Setenv("DB_HOST", "127.0.0.1")
+	os.Setenv("DB_PORT", "3306")
+	os.Setenv("DB_USER", "isucon")
+	os.Setenv("DB_PASS", "isucon")
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4",
 		os.Getenv("DB_USER"), os.Getenv("DB_PASS"),
 		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
