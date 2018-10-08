@@ -31,6 +31,6 @@ func TestGetSheets(t *testing.T) {
 		t.Fatalf("failed test %#v", err)
 	}
 	if len(*result) != 1 {
-		t.Fatal("failed")
+		t.Fatalf("failed: result length is %d", len(*result))
 	}
 }
